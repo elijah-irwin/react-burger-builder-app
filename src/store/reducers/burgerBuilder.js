@@ -1,13 +1,9 @@
-import * as actionTypes from './actions';
+import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-  ingredients: {
-    salad: 0,
-    bacon: 0,
-    cheese: 0,
-    meat: 0
-  },
+  ingredients: null,
   totalPrice: 4,
+  error: false
 }
 
 const INGREDIENT_PRICES = {
@@ -19,6 +15,8 @@ const INGREDIENT_PRICES = {
 
 
 const reducer = (state = initialState, action) => {
+
+  // ADD_INGREDIENT
   if (action.type === actionTypes.ADD_INGREDIENT) {
     return {
       ...state,
@@ -30,6 +28,7 @@ const reducer = (state = initialState, action) => {
     };
   }
 
+  // REMOVE_INGREDIENT
   if (action.type === actionTypes.REMOVE_INGREDIENT) {
     return {
       ...state,
@@ -39,6 +38,29 @@ const reducer = (state = initialState, action) => {
       },
       totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName]
     };
+  }
+
+  // SET_INGREDIENTS
+  if (action.type === actionTypes.SET_INGREDIENTS) {
+    return {
+      ...state,
+      ingredients: {
+        salad: action.ingredients.salad,
+        bacon: action.ingredients.bacon,
+        cheese: action.ingredients.cheese,
+        meat: action.ingredients.meat
+      },
+      totalPrice: 4,
+      error: false
+    };
+  }
+
+  // FETCH_INGREDIENTS_FAILED
+  if (action.type === actionTypes.FETCH_INGREDIENT_FAILED) {
+    return {
+      ...state,
+      error: true
+    }
   }
   
   return state;
